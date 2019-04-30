@@ -1,0 +1,20 @@
+{
+  "name": "번역할건데요",
+  "description": "이러쿵 저러쿵",
+  "version": "0.1",
+  "browser_action": {
+    "default_popup": "popup.htm",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["contextMenus"],
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "css": ["content.css"]
+  }],
+  "background": {
+    "matches": ["http://*/*", "https://*/*"],
+    "persistent": false,
+    "scripts": ["background.js", "jquery-3.4.0.min.js"]
+  },
+  "manifest_version": 2
+}

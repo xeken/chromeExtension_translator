@@ -1,25 +1,16 @@
 window.selectT = "";
 window.relayT = "";
 window.finalT = "";
-window.finalT2 = "";
-chrome.contextMenus.onClicked.addListener(
-  function (info, tab) {
 
-    selectT = info.selectionText;
-    translate(selectT);
-  }
-);
+chrome.runtime.onInstalled.addListener(() => chrome.contextMenus.create({title: "병쨩번역", contexts: ["selection"], id: "EE"}));
+chrome.contextMenus.onClicked.addListener((info, tab) => {selectT = info.selectionText; translate(selectT);});
 
-chrome.runtime.onInstalled.addListener(
-  function () {
-    chrome.contextMenus.create({ title: "번역인게시야", contexts: ["selection"], id: "EE" });
-  }
-);
+//connectDB();
 
 async function translate(text) {
 
   let url = 'https://www.googleapis.com/language/translate/v2?key=';
-  let apiKey = 'AIzaSyDdQ6ahZ2JgCPBEewfoH9tq_n2zwnzHhAU';
+  let apiKey = "apikey";
 
   $.ajax({
 
@@ -37,15 +28,8 @@ async function translate(text) {
         url: url + apiKey,
         data: `&target=ko&format=html&q=${encodeURI(relayT)}`,
         success: function (res2) {
-
+          
           finalT = res2.data.translations[0].translatedText
-          try {
-            for (let i = 0; i < 4; i++) {
-              finalT2 = res2.data.translations[i];
-              console.log(finalT);
-            }
-          } catch (err) { console.log(err); }
-          //window.open("popup.htm", "extension_popup", "height=250, width=300, status=no");
           console.log(relayT, " -> ", finalT, '\n');
           alert("번역전 : " + text + "\n번역후 : " + finalT);
         },
@@ -60,18 +44,24 @@ async function translate(text) {
     }
   })
 
-  $.ajax({
+}
 
-    type: 'GET',
-    url: `http://www.dgsw.hs.kr/user/carte/list.do`,
-    success: function(meals){
-      console.log(meals);
-    },
-    error: function(meE){
-      console.log(meE);
-    }
+function connectDB(){
+
+  let mysql = require('mysql');
+
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'Mysql',
+    password: 'root'
+  });
+
+  connection.connect(function(err) {
+    if(!err)
+      console.log("Success"); 
   })
 }
 
+function inputDB(){
 
-          
+}

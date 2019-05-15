@@ -6,7 +6,7 @@
     "default_popup": "popup.htm",
     "default_icon": "icon.png"
   },
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus", "storage"],
   "content_scripts": [{
     "matches": ["http://*/*", "https://*/*"],
     "css": ["content.css"]

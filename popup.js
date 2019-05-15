@@ -5,15 +5,9 @@ let finalT = background.finalT;
 
 function view(){
 
-    
 }
+function connectDB(){
 
-function inputDB(){
-    /*
-        insert,
-        overlap,
-        excel
-    */
 }
 
 function download(){

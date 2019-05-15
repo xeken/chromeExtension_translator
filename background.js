@@ -5,12 +5,10 @@ window.finalT = "";
 chrome.runtime.onInstalled.addListener(() => chrome.contextMenus.create({title: "병쨩번역", contexts: ["selection"], id: "EE"}));
 chrome.contextMenus.onClicked.addListener((info, tab) => {selectT = info.selectionText; translate(selectT);});
 
-//connectDB();
-
 async function translate(text) {
 
   let url = 'https://www.googleapis.com/language/translate/v2?key=';
-  let apiKey = "apikey";
+  let apiKey = 'AIzaSyDdQ6ahZ2JgCPBEewfoH9tq_n2zwnzHhAU';
 
   $.ajax({
 
@@ -32,6 +30,7 @@ async function translate(text) {
           finalT = res2.data.translations[0].translatedText
           console.log(relayT, " -> ", finalT, '\n');
           alert("번역전 : " + text + "\n번역후 : " + finalT);
+          inputStorage();
         },
         error: function (error) {
           console.log("중계(일어) 번역 이후의 에러입니다.", error);
@@ -46,22 +45,8 @@ async function translate(text) {
 
 }
 
-function connectDB(){
+function inputStorage(){
 
-  let mysql = require('mysql');
-
-  let connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'Mysql',
-    password: 'root'
-  });
-
-  connection.connect(function(err) {
-    if(!err)
-      console.log("Success"); 
-  })
-}
-
-function inputDB(){
-
+  let word = {eng: selectT, kor: finalT};
+  chrome.storage.local.set(word, () => console.log("INPUT SUCCESS"));
 }

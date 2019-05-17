@@ -1,12 +1,12 @@
 {
-  "name": "번역할건데요",
+  "name": "병쨩변역",
   "description": "이러쿵 저러쿵",
   "version": "0.1",
   "browser_action": {
     "default_popup": "popup.htm",
     "default_icon": "icon.png"
   },
-  "permissions": ["contextMenus", "storage"],
+  "permissions": ["contextMenus", "storage", "tabs"],
   "content_scripts": [{
     "matches": ["http://*/*", "https://*/*"],
     "css": ["content.css"]

@@ -1,36 +1,35 @@
-window.selectT = "";
-window.relayT = "";
-window.finalT = "";
-
 chrome.runtime.onInstalled.addListener(() => chrome.contextMenus.create({title: "병쨩번역", contexts: ["selection"], id: "EE"}));
-chrome.contextMenus.onClicked.addListener((info, tab) => {selectT = info.selectionText; translate(selectT);});
+chrome.contextMenus.onClicked.addListener((info, tab) => translate(info.selectionText));
 
-async function translate(text) {
+async function translate(selectedText) {
 
   let url = 'https://www.googleapis.com/language/translate/v2?key=';
-  let apiKey = 'AIzaSyDdQ6ahZ2JgCPBEewfoH9tq_n2zwnzHhAU';
+  let apiKey = 'API_KEY';
 
   $.ajax({
 
     type: "POST",
     url: url + apiKey,
-    data: `&target=ja&format=html&q=${encodeURI(text)}`, //일본어로 중계번역을 한 번 거친다.
+    data: `&target=ja&format=html&q=${encodeURI(selectedText)}`, //일본어로 중계번역을 한 번 거친다.
     success: function (res) {
 
-      relayT = res.data.translations[0].translatedText;
-      console.log(text, " -> ", relayT);
+      let relayText = res.data.translations[0].translatedText;
+      console.log(selectedText, " -> ", relayText);
 
       $.ajax({
 
         type: "POST",
         url: url + apiKey,
-        data: `&target=ko&format=html&q=${encodeURI(relayT)}`,
-        success: function (res2) {
+        data: `&target=ko&format=html&q=${encodeURI(relayText)}`,
+        success: function (res) {
           
-          finalT = res2.data.translations[0].translatedText
-          console.log(relayT, " -> ", finalT, '\n');
-          alert("번역전 : " + text + "\n번역후 : " + finalT);
-          inputStorage();
+          let translatedText = res.data.translations[0].translatedText
+          console.log(relayText, " -> ", translatedText);
+
+          inputStorage(selectedText, translatedText);
+          chrome.runtime.sendMessage({eng: selectedText, kor: translatedText});
+
+          alert("번역전 : " + selectedText + "\n번역후 : " + translatedText);
         },
         error: function (error) {
           console.log("중계(일어) 번역 이후의 에러입니다.", error);
@@ -45,8 +44,8 @@ async function translate(text) {
 
 }
 
-function inputStorage(){
+function inputStorage(eng, kor){
 
-  let word = {eng: selectT, kor: finalT};
-  chrome.storage.local.set(word, () => console.log("INPUT SUCCESS"));
+  let word = {eng: eng, kor: kor};
+  chrome.storage.local.set(word, () => console.log("스토리지 저장 완료"));
 }

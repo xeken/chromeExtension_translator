@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse){
 
         nonTrans = request.eng;
-        let trans = request.kor;
+        trans = request.kor;
         console.log(nonTrans, trans);
     }   
 )

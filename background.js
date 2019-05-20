@@ -1,7 +1,7 @@
 chrome.runtime.onInstalled.addListener(() => chrome.contextMenus.create({title: "병쨩번역", contexts: ["selection"], id: "EE"}));
 chrome.contextMenus.onClicked.addListener((info, tab) => translate(info.selectionText));
 
-async function translate(selectedText) {
+function translate(selectedText) {
 
   let url = 'https://www.googleapis.com/language/translate/v2?key=';
   let apiKey = 'API_KEY';
@@ -27,7 +27,6 @@ async function translate(selectedText) {
           console.log(relayText, " -> ", translatedText);
 
           inputStorage(selectedText, translatedText);
-          chrome.runtime.sendMessage({eng: selectedText, kor: translatedText});
 
           alert("번역전 : " + selectedText + "\n번역후 : " + translatedText);
         },
@@ -46,6 +45,17 @@ async function translate(selectedText) {
 
 function inputStorage(eng, kor){
 
-  let word = {eng: eng, kor: kor};
-  chrome.storage.local.set(word, () => console.log("스토리지 저장 완료"));
+  //let word = {eng: eng, kor: kor};
+  let storage = chrome.storage.local;
+
+  storage.get('word', function(words){
+    
+    let reduplication = words.word;
+    reduplication.array.forEach(i => {
+      if(eng === reduplication[i].eng)
+        console.log(eng);
+    });
+  });
+  storage.set(word);          
+  //chrome.runtime.sendMessage({eng: selectedText, kor: translatedText});
 }

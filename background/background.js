@@ -19,7 +19,7 @@ async function translate(selectedText) {
     url: url + apiKey,
     data: `&target=ja&format=html&q=${encodeURI(selectedText)}`,
     success: res => tempText = res.data.translations[0].translatedText,
-    error: error => alert("중계 번역 이전 : ", error)
+    error: error => alert("에러가 발생했데요, 병현님을 기다리세요 \n", error)
   });
 
   await $.ajax({
@@ -27,17 +27,21 @@ async function translate(selectedText) {
     url: url + apiKey,
     data: `&target=ko&format=html&q=${encodeURI(tempText)}`,
     success: res => translatedText = res.data.translations[0].translatedText,
-    error: error => alert("중계 번역 이후 : ", error)
+    error: error => alert("에러가 발생했데요, 병현님을 기다리세요 \n", error)
   });
 
   await inputStorage(selectedText, translatedText);
-  //await swal("번역전: " +selectedText +"\n번역후: " +translatedText, {buttons:false});
-  await alert("번역전 : " + selectedText + "\n번역후 : " + translatedText);
+
+  //await alert("번역전 : " + selectedText + "\n번역후 : " + translatedText);
+  await chrome.tabs.getSelected(null, async (tab) =>{
+
+    await chrome.tabs.sendMessage(tab.id, {req: "translate", selected: selectedText, translated: translatedText}, (error) => {if(chrome.runtime.lastError)console.log("translate: "+chrome.runtime.lastError.message)});
+  })
 }
 
 function inputStorage(selection, translation) {
 
-  chrome.storage.local.get(function (data) {
+  chrome.storage.local.get((data) => {
 
     if (!data.kor)
       data.kor = [];
@@ -53,18 +57,20 @@ function inputStorage(selection, translation) {
 
 chrome.commands.onCommand.addListener((press) => {
 
-  if (press === "toggle-feature") {
+  if (press === "toggle-feature")
 
-    chrome.tabs.getSelected(null, function (tab) {
-      chrome.tabs.sendMessage(tab.id, { req: "selection" }, function (response) {
+    chrome.tabs.getSelected(null, (tab) => {
+
+      chrome.tabs.sendMessage(tab.id, { req: "selection" }, (response) => {
+
         if (chrome.runtime.lastError)
           alert("이 페이지에서는 사용 할 수 없나봐요.\nERROR: " + chrome.runtime.lastError.message);
-        if (response.res.trim() == "") 
-          alert("이프 유 워나 유징 디스, 유 슈드 투 하이라이팅 텍스트 퍼스트 ");
-        else 
+        if (response.res.trim() == "")
+          chrome.tabs.sendMessage(tab.id, { req: "selectIsNothing", msg: "이프 유 원트 투 유즈 디스, 유 슈드 투 셀렉트 텍스트 퍼스트"}, (error) => console.log(error));
+        else
           translate(response.res);
       });
     });
-  }
 });
+
 

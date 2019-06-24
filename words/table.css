@@ -1,0 +1,28 @@
+table.result {
+    border-collapse: collapse;
+    text-align: center;
+    margin: auto;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    margin: 20px 10px;
+}
+
+table.result thead {
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background: #e7708d;
+}
+
+table.result thead th {
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #fff;
+}
+
+table.result td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #ccc;
+}

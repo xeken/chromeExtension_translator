@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        body, html {
+            width: 3in;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        table {
+            width: 100vw;
+            
+            border-collapse: collapse;
+        }
+
+        tr, td {
+            height: auto;
+            font-size: 15px;
+            margin: 0 0 0 0;
+        }
+
+        header{
+            background-color: #FF96A7;
+            color: #fff;
+            font-size: 1.05rem;
+            padding: 10px 0px;
+            
+        }
+
+        #newTab{
+            background: #FF96A7;
+            outline: none;
+            border: none;
+            color: #fff;
+            padding: 10px 30px;
+            cursor: pointer;
+            margin: 10px 0px;
+            border-radius: 50px;            
+        }
+
+        th, td{
+            color: #a9A9A9;
+            transition: 0.5s;
+        }
+
+        th:hover, td:hover{
+            background: #F2F2F2;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+    
+    <table>
+        <header>병짱번역</header>
+        <tr>
+            <th>
+                <p id="before"></p>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <p id="after"></p>
+            </td>
+        </tr>
+    </table>
+    <button id="newTab">단어장</button>
+
+</body>
+<script src="./popup.js"></script>
+
+</html>

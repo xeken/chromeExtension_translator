@@ -3,18 +3,24 @@
   "description": "이러쿵 저러쿵",
   "version": "0.1",
   "browser_action": {
-    "default_popup": "popup.htm",
+    "default_popup": "./PopUp/popup.htm",
     "default_icon": "icon.png"
+  },
+  "commands": {
+    "toggle-feature": {
+      "suggested_key": { "default": "Ctrl+Q" },
+      "description": "hotkey : translating to highlighting words "
+    }
   },
   "permissions": ["contextMenus", "storage", "tabs"],
   "content_scripts": [{
     "matches": ["http://*/*", "https://*/*"],
-    "css": ["content.css"]
+    "css": ["./contents/rainbowLink.css"],
+    "js": ["./contents/content.js"]
   }],
   "background": {
     "matches": ["http://*/*", "https://*/*"],
     "persistent": false,
-    "scripts": ["background.js", "jquery-3.4.0.min.js"]
-  },
+    "scripts": ["./background/background.js", "./extend/jquery-3.4.0.min.js", "./extend/sweetalert.js"]},
   "manifest_version": 2
 }

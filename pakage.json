@@ -1,0 +1,19 @@
+{
+    "name": "chromee",
+    "version": "1.0.0",
+    "description": "개소리",
+    "main": "background.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "@types/chrome": "0.0.83",
+      "express": "4.16.4",
+      "mysql": "2.17.1",
+      "request": "^2.88.0",
+      "require": "^2.4.20"
+    }
+  }
+  

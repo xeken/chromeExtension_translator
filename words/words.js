@@ -26,8 +26,14 @@ $(document).ready(_ => {
             });
         });
     });
-
-    $('#export').click( _ => exportTableToExcel());
+    $('#export').click(function () {
+        $("#table_data").table2excel({
+            name: "병쨩번역",
+            filename: "words",
+            fileext: ".xls"
+        });
+    });
+    //$('#export').click( _ => exportTableToExcel());
     $('#reset').click( _ => {chrome.storage.local.clear(); location.reload();});
 });
 
@@ -40,22 +46,23 @@ function deleteDataFromStorage(event) {
     });
 }
 
-function exportTableToExcel() {
+// function exportTableToExcel() {
 
-    let dataType = 'application/vnd.ms-excel';
-    let tableHTML = document.getElementById('table_data').outerHTML.replace(/ /g, '%20');
-    filename = 'words.xls';
 
-    let downloadLink = document.createElement("a");
-    document.body.appendChild(downloadLink);
+//     const dataType = 'application/vnd.ms-excel';
+//     let tableHTML = document.getElementById('table_data').outerHTML.replace(/ /g, '%20');
+//     const filename = 'words.xls';
+//     const encoding = '\ufeff';
+//     let downloadLink = document.createElement("a");
+//     document.body.appendChild(downloadLink);
 
-    if (navigator.msSaveOrOpenBlob) {
-        let blob = new Blob(['\ufeff', tableHTML], { type: dataType });
-        navigator.msSaveOrOpenBlob(blob, filename);
-    } else {
-        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-        downloadLink.download = filename;
-        downloadLink.style.display = 'none';
-        downloadLink.click();
-    }
-}
+//     if (navigator.msSaveOrOpenBlob) {
+//         let blob = new Blob([encoding, tableHTML], { type: dataType });
+//         navigator.msSaveOrOpenBlob(blob, filename);
+//     } else {
+//         downloadLink.href = 'data:' + dataType + ', ' +tableHTML;
+//         downloadLink.download = filename;
+//         downloadLink.style.display = 'none';
+//         downloadLink.click();
+//     }
+// }

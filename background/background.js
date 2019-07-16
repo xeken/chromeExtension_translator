@@ -4,7 +4,7 @@ const contextMenuProps = {
   "contexts": ["selection"]
 };
 const url = 'https://www.googleapis.com/language/translate/v2?key=';
-const apiKey = 'AIzaSyDdQ6ahZ2JgCPBEewfoH9tq_n2zwnzHhAU';
+const apiKey = 'YOUR API KEY';
 
 chrome.contextMenus.create(contextMenuProps);
 chrome.contextMenus.onClicked.addListener((info, tab) => translate(info.selectionText))
